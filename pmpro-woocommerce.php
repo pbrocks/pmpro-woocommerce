@@ -15,11 +15,21 @@
 	3. If WooCommerce subscriptions are installed, and a subscription is cancelled, cancel the corresponding PMPro membership level.
 
 	NOTE: You can still only have one level per user with PMPro.
+
+	PBRX thoughts: Welcome Class, help menus
  */
 
 // constants and globals
 define( 'PMPROWC_DIR', dirname( __FILE__ ) );
 
+register_activation_hook( __FILE__, 'pmprobp_install' );
+function pmprobp_install() {
+	set_transient( 'pmprobp_activated', true, 30 );
+}
+
+// if ( file_exists( ( 'includes/class-help-welcome-menus.php' ) ) {
+	include( 'includes/class-help-welcome-menus.php' );
+// }
 /**
  * Loads modules and globals on init
  */
@@ -177,8 +187,8 @@ function pmprowoo_cancel_membership_from_order( $order_id ) {
 		}
 	}
 }
-// add_action("woocommerce_order_status_pending", "pmprowoo_cancel_membership_from_order");
-// add_action("woocommerce_order_status_processing", "pmprowoo_cancel_membership_from_order");
+// add_action( 'woocommerce_order_status_pending', 'pmprowoo_cancel_membership_from_order' );
+// add_action( 'woocommerce_order_status_processing', 'pmprowoo_cancel_membership_from_order' );
 add_action( 'woocommerce_order_status_refunded', 'pmprowoo_cancel_membership_from_order' );
 add_action( 'woocommerce_order_status_failed', 'pmprowoo_cancel_membership_from_order' );
 add_action( 'woocommerce_order_status_on_hold', 'pmprowoo_cancel_membership_from_order' );
